@@ -1,65 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lumière — Photography</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <title>Lumiere Photography</title>
+
+  <!-- Render blocking fonts - no preconnect -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&display=block" rel="stylesheet"/>
+
+  <!-- Unused Bootstrap loaded fully -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+
+  <!-- Inline styles mixed with everything - no structure -->
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --navy:   #1b2232;
-      --ocean:  #2583eb;
-      --sky:    #60a5fa;
-      --lgray:  #f1f5f9;
-      --white:  #ffffff;
-      --text:   #1b2232;
-      --muted:  #64748b;
-    }
-
-    html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Poppins', sans-serif;
-      color: var(--text);
-      background: var(--white);
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
     }
 
-    /* ── NAVBAR ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 0 6%;
       height: 68px;
       background: rgba(27, 34, 50, 0.92);
-      backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
 
     .nav-logo {
       font-size: 1.35rem;
       font-weight: 700;
-      color: var(--white);
+      color: #ffffff;
       letter-spacing: 0.04em;
     }
-    .nav-logo span { color: var(--sky); }
+    .nav-logo span { color: #60a5fa; }
 
-    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; margin: 0; padding: 0; }
     .nav-links a {
       text-decoration: none;
       color: rgba(255,255,255,0.75);
       font-size: 0.9rem;
       font-weight: 500;
-      letter-spacing: 0.03em;
-      transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--sky); }
+    .nav-links a:hover { color: #60a5fa; }
 
-    /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      background: var(--navy);
+      background: #1b2232;
       display: flex;
       align-items: center;
       padding: 100px 6% 60px;
@@ -67,31 +60,27 @@
       overflow: hidden;
     }
 
-    /* subtle grid overlay */
     .hero::before {
       content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(96,165,250,0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(96,165,250,0.05) 1px, transparent 1px);
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(96,165,250,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.05) 1px, transparent 1px);
       background-size: 48px 48px;
     }
 
-    /* glowing orb */
     .hero::after {
       content: '';
       position: absolute;
-      width: 520px; height: 520px;
+      width: 520px;
+      height: 520px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(37,131,235,0.22) 0%, transparent 70%);
-      right: 8%; top: 50%; transform: translateY(-50%);
-      pointer-events: none;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
-    .hero-content {
-      position: relative; z-index: 1;
-      max-width: 640px;
-    }
+    .hero-content { position: relative; z-index: 1; max-width: 640px; }
 
     .hero-tag {
       display: inline-block;
@@ -99,7 +88,7 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--sky);
+      color: #60a5fa;
       border: 1px solid rgba(96,165,250,0.35);
       border-radius: 100px;
       padding: 5px 16px;
@@ -107,16 +96,14 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-size: 4.2rem;
       font-weight: 900;
       line-height: 1.1;
-      color: var(--white);
+      color: #ffffff;
       margin-bottom: 1.4rem;
     }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--sky);
-    }
+
+    .hero h1 em { font-style: normal; color: #60a5fa; }
 
     .hero p {
       font-size: 1.05rem;
@@ -126,113 +113,105 @@
       margin-bottom: 2.4rem;
     }
 
-    .btn-primary {
+    .btn-primary-custom {
       display: inline-block;
-      background: var(--ocean);
-      color: var(--white);
+      background: #2583eb;
+      color: #ffffff;
       text-decoration: none;
       font-size: 0.95rem;
       font-weight: 600;
       padding: 14px 36px;
       border-radius: 6px;
-      transition: background 0.2s, transform 0.15s;
-      letter-spacing: 0.02em;
     }
-    .btn-primary:hover { background: var(--sky); transform: translateY(-2px); }
+    .btn-primary-custom:hover { background: #60a5fa; }
 
-    .btn-ghost {
+    .btn-ghost-custom {
       display: inline-block;
       border: 1.5px solid rgba(255,255,255,0.25);
       color: rgba(255,255,255,0.8);
       text-decoration: none;
       font-size: 0.95rem;
-      font-weight: 500;
       padding: 13px 32px;
       border-radius: 6px;
       margin-left: 1rem;
-      transition: border-color 0.2s, color 0.2s;
     }
-    .btn-ghost:hover { border-color: var(--sky); color: var(--sky); }
 
-    /* floating camera icon */
     .hero-visual {
       position: absolute;
-      right: 6%; top: 50%; transform: translateY(-50%);
+      right: 6%;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 1;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .camera-ring {
-      width: 320px; height: 320px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(96,165,250,0.2);
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
-    }
-    .camera-ring::before {
-      content: '';
-      position: absolute; inset: 16px;
-      border-radius: 50%;
-      border: 1px solid rgba(96,165,250,0.12);
-    }
-    .camera-icon {
-      font-size: 7rem;
-      filter: drop-shadow(0 0 32px rgba(37,131,235,0.5));
     }
 
-    /* ── STATS BAR ── */
+    .camera-ring {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(96,165,250,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .camera-icon { font-size: 7rem; }
+
     .stats {
-      background: var(--lgray);
+      background: #f1f5f9;
       padding: 40px 6%;
       display: flex;
-      gap: 0;
-      border-top: 1px solid #e2e8f0;
-      border-bottom: 1px solid #e2e8f0;
     }
+
     .stat-item {
       flex: 1;
       text-align: center;
       padding: 0 1rem;
       border-right: 1px solid #e2e8f0;
     }
+
     .stat-item:last-child { border-right: none; }
+
     .stat-num {
       font-size: 2rem;
       font-weight: 900;
-      color: var(--ocean);
+      color: #2583eb;
       display: block;
     }
+
     .stat-label {
       font-size: 0.82rem;
-      color: var(--muted);
+      color: #64748b;
       font-weight: 500;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
-    /* ── SERVICES ── */
     .services {
       padding: 96px 6%;
-      background: var(--white);
+      background: #ffffff;
     }
+
     .section-label {
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--ocean);
+      color: #2583eb;
       margin-bottom: 0.7rem;
     }
+
     .section-title {
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-size: 2.6rem;
       font-weight: 800;
       line-height: 1.2;
-      color: var(--navy);
+      color: #1b2232;
       max-width: 520px;
       margin-bottom: 0.9rem;
     }
+
     .section-sub {
       font-size: 1rem;
-      color: var(--muted);
+      color: #64748b;
       max-width: 480px;
       line-height: 1.7;
       margin-bottom: 3.5rem;
@@ -245,144 +224,108 @@
     }
 
     .card {
-      background: var(--lgray);
+      background: #f1f5f9;
       border-radius: 12px;
       padding: 2rem 1.8rem;
       border: 1px solid #e2e8f0;
-      transition: box-shadow 0.2s, transform 0.2s;
     }
-    .card:hover {
-      box-shadow: 0 8px 32px rgba(37,131,235,0.1);
-      transform: translateY(-4px);
-    }
-    .card-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
+
+    .card:hover { box-shadow: 0 8px 32px rgba(37,131,235,0.1); }
+
+    .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+
     .card h3 {
       font-size: 1.05rem;
       font-weight: 700;
-      color: var(--navy);
+      color: #1b2232;
       margin-bottom: 0.5rem;
     }
-    .card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
 
-    /* ── ABOUT ── */
+    .card p { font-size: 0.9rem; color: #64748b; line-height: 1.7; }
+
     .about {
       padding: 96px 6%;
-      background: var(--navy);
+      background: #1b2232;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 5rem;
       align-items: center;
     }
-    .about-text .section-label { color: var(--sky); }
-    .about-text .section-title { color: var(--white); }
+
+    .about-text .section-label { color: #60a5fa; }
+    .about-text .section-title { color: #ffffff; }
     .about-text .section-sub { color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
 
-    .about-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
-    .about-features li {
-      display: flex; align-items: center; gap: 0.7rem;
-      color: rgba(255,255,255,0.75);
-      font-size: 0.93rem;
-    }
+    .about-features { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.8rem; }
+    .about-features li { display: flex; align-items: center; gap: 0.7rem; color: rgba(255,255,255,0.75); font-size: 0.93rem; }
     .about-features li::before {
       content: '✓';
-      display: inline-flex;
-      align-items: center; justify-content: center;
       width: 22px; height: 22px;
       border-radius: 50%;
-      background: var(--ocean);
+      background: #2583eb;
       color: white;
       font-size: 0.7rem;
-      font-weight: 700;
-      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .about-visual {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
+    .about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
     .about-img-block {
       border-radius: 10px;
-      overflow: hidden;
       aspect-ratio: 1;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.09);
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 3.5rem;
     }
+
     .about-img-block:first-child {
       grid-column: span 2;
       aspect-ratio: 2/1;
       font-size: 5rem;
-      background: linear-gradient(135deg, rgba(37,131,235,0.15), rgba(96,165,250,0.08));
     }
 
-    /* ── FOOTER ── */
     footer {
       background: #111827;
       color: rgba(255,255,255,0.5);
       padding: 48px 6% 28px;
     }
+
     .footer-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
       gap: 2rem;
       padding-bottom: 2rem;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       margin-bottom: 1.6rem;
-      flex-wrap: wrap;
     }
-    .footer-brand .nav-logo { font-size: 1.2rem; display: block; margin-bottom: 0.5rem; }
-    .footer-brand p { font-size: 0.85rem; max-width: 240px; line-height: 1.7; }
 
     .footer-links h4 {
-      color: var(--white);
+      color: #ffffff;
       font-size: 0.88rem;
       font-weight: 700;
       margin-bottom: 0.9rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
-    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-    .footer-links a {
-      color: rgba(255,255,255,0.45);
-      text-decoration: none;
-      font-size: 0.87rem;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--sky); }
+
+    .footer-links ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.87rem; }
+    .footer-links a:hover { color: #60a5fa; }
 
     .footer-bottom {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       font-size: 0.82rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .footer-bottom a { color: var(--sky); text-decoration: none; }
-
-    @media (max-width: 768px) {
-      .hero-visual { display: none; }
-      .about { grid-template-columns: 1fr; gap: 2.5rem; }
-      .stats { flex-wrap: wrap; }
-      .stat-item { flex: 1 1 40%; border-right: none; border-bottom: 1px solid #e2e8f0; padding: 1rem; }
-      .footer-top { flex-direction: column; }
-      .btn-ghost { margin-left: 0; margin-top: 0.8rem; display: block; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav>
     <div class="nav-logo">Lumi<span>è</span>re</div>
     <ul class="nav-links">
@@ -392,19 +335,14 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-content">
       <span class="hero-tag">📷 Professional Photography</span>
       <h1>Capturing Moments<br>That <em>Last Forever</em></h1>
-      <p>
-        We craft timeless images that tell your story — from intimate portraits
-        to grand landscapes, every frame is a work of art.
-      </p>
-      <a href="#services" class="btn-primary">Explore Our Work</a>
-      <a href="#contact" class="btn-ghost">Get In Touch</a>
+      <p>We craft timeless images that tell your story — from intimate portraits to grand landscapes, every frame is a work of art.</p>
+      <a href="#services" class="btn-primary-custom">Explore Our Work</a>
+      <a href="#contact" class="btn-ghost-custom">Get In Touch</a>
     </div>
-
     <div class="hero-visual">
       <div class="camera-ring">
         <span class="camera-icon">📷</span>
@@ -412,7 +350,6 @@
     </div>
   </section>
 
-  <!-- STATS BAR -->
   <div class="stats">
     <div class="stat-item">
       <span class="stat-num">1200+</span>
@@ -432,15 +369,10 @@
     </div>
   </div>
 
-  <!-- SERVICES -->
   <section class="services" id="services">
     <p class="section-label">What We Offer</p>
     <h2 class="section-title">Photography for Every Occasion</h2>
-    <p class="section-sub">
-      From weddings to corporate events, our lens brings your vision to life
-      with precision, creativity, and care.
-    </p>
-
+    <p class="section-sub">From weddings to corporate events, our lens brings your vision to life with precision, creativity, and care.</p>
     <div class="services-grid">
       <div class="card">
         <div class="card-icon">💍</div>
@@ -475,16 +407,11 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section class="about" id="about">
     <div class="about-text">
       <p class="section-label">Our Story</p>
       <h2 class="section-title">Where Passion Meets the Lens</h2>
-      <p class="section-sub">
-        Founded in 2016, Lumière Photography was built on a simple belief —
-        great photos change how people see the world. We work closely with
-        every client to understand their vision and deliver images that exceed expectations.
-      </p>
+      <p class="section-sub">Founded in 2016, Lumière Photography was built on a simple belief — great photos change how people see the world. We work closely with every client to understand their vision and deliver images that exceed expectations.</p>
       <ul class="about-features">
         <li>Fully edited, high-resolution digital files</li>
         <li>Fast 7-day delivery turnaround</li>
@@ -500,27 +427,26 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-top">
       <div class="footer-brand">
-        <span class="nav-logo">Lumi<span>è</span>re</span>
-        <p>Crafting timeless photography across Kerala and beyond since 2016.</p>
+        <div class="nav-logo">Lumi<span>è</span>re</div>
+        <p style="font-size:0.85rem; max-width:240px; line-height:1.7; margin-top:0.5rem;">Crafting timeless photography across Kerala and beyond since 2016.</p>
       </div>
       <div class="footer-links">
         <h4>Navigation</h4>
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">About</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4>Contact</h4>
         <ul>
           <li><a href="#">hello@lumiere.photo</a></li>
-          <li><a href="#">+18523145632</a></li>
-          <li><a href="#">Canada</a></li>
+          <li><a href="#">+91 98765 43210</a></li>
+          <li><a href="#">Kannur, Kerala, India</a></li>
         </ul>
       </div>
       <div class="footer-links">
@@ -534,9 +460,13 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Lumière Photography. All rights reserved.</span>
-      <span>Made with ❤️ </span>
+      <span>Made with ❤️ in Kerala</span>
     </div>
   </footer>
+
+  <!-- Render blocking scripts at top (wrong placement) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
 
 </body>
 </html>
