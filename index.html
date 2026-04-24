@@ -1,211 +1,542 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Lumiere Photography</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lumière — Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    :root {
+      --navy:   #1b2232;
+      --ocean:  #2583eb;
+      --sky:    #60a5fa;
+      --lgray:  #f1f5f9;
+      --white:  #ffffff;
+      --text:   #1b2232;
+      --muted:  #64748b;
+    }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    html { scroll-behavior: smooth; }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Open+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Lato:wght@100;300;400;700;900&display=block" rel="stylesheet"/>
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      background: var(--white);
+    }
 
-<style>
-* { margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: white; }
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6%;
+      height: 68px;
+      background: rgba(27, 34, 50, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
 
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 6%; height: 68px;
-  background: rgba(27, 34, 50, 0.92);
-}
-.nav-logo { font-size: 1.35rem; font-weight: 700; color: #ffffff; }
-.nav-logo span { color: #60a5fa; }
-.nav-links { display: flex; gap: 2.2rem; list-style: none; }
-.nav-links a { text-decoration: none; color: rgba(255,255,255,0.75); font-size: 0.9rem; }
-.nav-links a:hover { color: #60a5fa; }
+    .nav-logo {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.04em;
+    }
+    .nav-logo span { color: var(--sky); }
 
-.hero {
-  min-height: 100vh;
-  background: #1b2232;
-  display: flex; align-items: center;
-  padding: 100px 6% 60px;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(96,165,250,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(96,165,250,0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  width: 520px; height: 520px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(37,131,235,0.22) 0%, transparent 70%);
-  right: 8%; top: 50%; transform: translateY(-50%);
-}
-.hero-content { position: relative; z-index: 1; max-width: 640px; }
-.hero-tag {
-  display: inline-block; font-size: 0.78rem; font-weight: 600;
-  letter-spacing: 0.14em; text-transform: uppercase; color: #60a5fa;
-  border: 1px solid rgba(96,165,250,0.35); border-radius: 100px;
-  padding: 5px 16px; margin-bottom: 1.4rem;
-}
-.hero h1 { font-size: 4.2rem; font-weight: 900; line-height: 1.1; color: #ffffff; margin-bottom: 1.4rem; }
-.hero h1 em { font-style: normal; color: #60a5fa; }
-.hero p { font-size: 1.05rem; line-height: 1.75; color: rgba(255,255,255,0.62); max-width: 480px; margin-bottom: 2.4rem; }
-.btn-p { display: inline-block; background: #2583eb; color: #ffffff; text-decoration: none; font-size: 0.95rem; font-weight: 600; padding: 14px 36px; border-radius: 6px; }
-.btn-g { display: inline-block; border: 1.5px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; padding: 13px 32px; border-radius: 6px; margin-left: 1rem; }
-.hero-visual { position: absolute; right: 6%; top: 50%; transform: translateY(-50%); z-index: 1; }
-.camera-ring { width: 320px; height: 320px; border-radius: 50%; border: 1.5px solid rgba(96,165,250,0.2); display: flex; align-items: center; justify-content: center; }
-.camera-icon { font-size: 7rem; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--sky); }
 
-.stats { background: #f1f5f9; padding: 40px 6%; display: flex; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
-.stat-item { flex: 1; text-align: center; padding: 0 1rem; border-right: 1px solid #e2e8f0; }
-.stat-item:last-child { border-right: none; }
-.stat-num { font-size: 2rem; font-weight: 900; color: #2583eb; display: block; }
-.stat-label { font-size: 0.82rem; color: #64748b; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      padding: 100px 6% 60px;
+      position: relative;
+      overflow: hidden;
+    }
 
-.services { padding: 96px 6%; background: #ffffff; }
-.section-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #2583eb; margin-bottom: 0.7rem; }
-.section-title { font-size: 2.6rem; font-weight: 800; line-height: 1.2; color: #1b2232; max-width: 520px; margin-bottom: 0.9rem; }
-.section-sub { font-size: 1rem; color: #64748b; max-width: 480px; line-height: 1.7; margin-bottom: 3.5rem; }
-.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.6rem; }
-.card { background: #f1f5f9; border-radius: 12px; padding: 2rem 1.8rem; border: 1px solid #e2e8f0; }
-.card:hover { box-shadow: 0 8px 32px rgba(37,131,235,0.1); }
-.card-icon { font-size: 2rem; margin-bottom: 1rem; }
-.card h3 { font-size: 1.05rem; font-weight: 700; color: #1b2232; margin-bottom: 0.5rem; }
-.card p { font-size: 0.9rem; color: #64748b; line-height: 1.7; }
+    /* subtle grid overlay */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(96,165,250,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(96,165,250,0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
 
-.about { padding: 96px 6%; background: #1b2232; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-.about-text .section-label { color: #60a5fa; }
-.about-text .section-title { color: #ffffff; }
-.about-text .section-sub { color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
-.about-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
-.about-features li { display: flex; align-items: center; gap: 0.7rem; color: rgba(255,255,255,0.75); font-size: 0.93rem; }
-.about-features li::before { content: '✓'; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #2583eb; color: white; font-size: 0.7rem; font-weight: 700; }
-.about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.about-img-block { border-radius: 10px; aspect-ratio: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.09); display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
-.about-img-block:first-child { grid-column: span 2; aspect-ratio: 2/1; font-size: 5rem; }
+    /* glowing orb */
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,131,235,0.22) 0%, transparent 70%);
+      right: 8%; top: 50%; transform: translateY(-50%);
+      pointer-events: none;
+    }
 
-footer { background: #111827; color: rgba(255,255,255,0.5); padding: 48px 6% 28px; }
-.footer-top { display: flex; justify-content: space-between; gap: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.6rem; }
-.footer-links h4 { color: #ffffff; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.9rem; }
-.footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.87rem; }
-.footer-bottom { display: flex; justify-content: space-between; font-size: 0.82rem; }
-</style>
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 640px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sky);
+      border: 1px solid rgba(96,165,250,0.35);
+      border-radius: 100px;
+      padding: 5px 16px;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--white);
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.62);
+      max-width: 480px;
+      margin-bottom: 2.4rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--ocean);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 14px 36px;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary:hover { background: var(--sky); transform: translateY(-2px); }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 13px 32px;
+      border-radius: 6px;
+      margin-left: 1rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--sky); color: var(--sky); }
+
+    /* floating camera icon */
+    .hero-visual {
+      position: absolute;
+      right: 6%; top: 50%; transform: translateY(-50%);
+      z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .camera-ring {
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(96,165,250,0.2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .camera-ring::before {
+      content: '';
+      position: absolute; inset: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(96,165,250,0.12);
+    }
+    .camera-icon {
+      font-size: 7rem;
+      filter: drop-shadow(0 0 32px rgba(37,131,235,0.5));
+    }
+
+    /* ── STATS BAR ── */
+    .stats {
+      background: var(--lgray);
+      padding: 40px 6%;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 0 1rem;
+      border-right: 1px solid #e2e8f0;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--ocean);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 96px 6%;
+      background: var(--white);
+    }
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ocean);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--navy);
+      max-width: 520px;
+      margin-bottom: 0.9rem;
+    }
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.6rem;
+    }
+
+    .card {
+      background: var(--lgray);
+      border-radius: 12px;
+      padding: 2rem 1.8rem;
+      border: 1px solid #e2e8f0;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(37,131,235,0.1);
+      transform: translateY(-4px);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      padding: 96px 6%;
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-text .section-label { color: var(--sky); }
+    .about-text .section-title { color: var(--white); }
+    .about-text .section-sub { color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
+
+    .about-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+    .about-features li {
+      display: flex; align-items: center; gap: 0.7rem;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.93rem;
+    }
+    .about-features li::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--ocean);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .about-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .about-img-block {
+      border-radius: 10px;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+    }
+    .about-img-block:first-child {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+      font-size: 5rem;
+      background: linear-gradient(135deg, rgba(37,131,235,0.15), rgba(96,165,250,0.08));
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #111827;
+      color: rgba(255,255,255,0.5);
+      padding: 48px 6% 28px;
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 1.6rem;
+      flex-wrap: wrap;
+    }
+    .footer-brand .nav-logo { font-size: 1.2rem; display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.85rem; max-width: 240px; line-height: 1.7; }
+
+    .footer-links h4 {
+      color: var(--white);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-links a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      font-size: 0.87rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--sky); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .footer-bottom a { color: var(--sky); text-decoration: none; }
+
+    @media (max-width: 768px) {
+      .hero-visual { display: none; }
+      .about { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats { flex-wrap: wrap; }
+      .stat-item { flex: 1 1 40%; border-right: none; border-bottom: 1px solid #e2e8f0; padding: 1rem; }
+      .footer-top { flex-direction: column; }
+      .btn-ghost { margin-left: 0; margin-top: 0.8rem; display: block; text-align: center; }
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">Lumi<span>è</span>re</div>
-  <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#services">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<section class="hero" id="home">
-  <div class="hero-content">
-    <span class="hero-tag">📷 Professionals Photography</span>
-    <h1>Capturing Moments<br>That <em>Last Forever</em></h1>
-    <p>We craft timeless images that tell your story — from intimate portraits to grand landscapes, every frame is a work of art.</p>
-    <a href="#services" class="btn-p">Explore Our Work</a>
-    <a href="#contact" class="btn-g">Get In Touch</a>
-  </div>
-  <div class="hero-visual">
-    <div class="camera-ring">
-      <span class="camera-icon">📷</span>
-    </div>
-  </div>
-</section>
-
-<div class="stats">
-  <div class="stat-item"><span class="stat-num">1200+</span><span class="stat-label">Projects Done</span></div>
-  <div class="stat-item"><span class="stat-num">8 Yrs</span><span class="stat-label">Experience</span></div>
-  <div class="stat-item"><span class="stat-num">98%</span><span class="stat-label">Happy Clients</span></div>
-  <div class="stat-item"><span class="stat-num">15+</span><span class="stat-label">Awards Won</span></div>
-</div>
-
-<section class="services" id="services">
-  <p class="section-label">What We Offer</p>
-  <h2 class="section-title">Photography for Every Occasion</h2>
-  <p class="section-sub">From weddings to corporate events, our lens brings your vision to life with precision, creativity, and care.</p>
-  <div class="services-grid">
-    <div class="card"><div class="card-icon">💍</div><h3>Wedding Photography</h3><p>Emotional, candid, and beautifully composed images of your most important day.</p></div>
-    <div class="card"><div class="card-icon">🧑‍💼</div><h3>Portrait Sessions</h3><p>Professional headshots and personal portraits crafted to reflect your personality.</p></div>
-    <div class="card"><div class="card-icon">🏢</div><h3>Corporate Events</h3><p>High-quality documentation of conferences, product launches, and team events.</p></div>
-    <div class="card"><div class="card-icon">🌿</div><h3>Nature & Landscape</h3><p>Sweeping vistas and fine details — nature captured at its most breathtaking.</p></div>
-    <div class="card"><div class="card-icon">🍽️</div><h3>Product & Food</h3><p>Commercial shoots that make your product irresistible to your audience.</p></div>
-    <div class="card"><div class="card-icon">🎨</div><h3>Fine Art Prints</h3><p>Gallery-quality prints, retouched and printed on premium archival paper.</p></div>
-  </div>
-</section>
-
-<section class="about" id="about">
-  <div class="about-text">
-    <p class="section-label">Our Story</p>
-    <h2 class="section-title">Where Passion Meets the Lens</h2>
-    <p class="section-sub">Founded in 2016, Lumière Photography was built on a simple belief — great photos change how people see the world.</p>
-    <ul class="about-features">
-      <li>Fully edited, high-resolution digital files</li>
-      <li>Fast 7-day delivery turnaround</li>
-      <li>On-location & studio sessions available</li>
-      <li>Flexible packages for all budgets</li>
-      <li>Private online gallery for easy sharing</li>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-logo">Lumi<span>è</span>re</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">About</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
-  </div>
-  <div class="about-visual">
-    <div class="about-img-block">🌅</div>
-    <div class="about-img-block">🏙️</div>
-    <div class="about-img-block">🌺</div>
-  </div>
-</section>
+  </nav>
 
-<footer id="contact">
-  <div class="footer-top">
-    <div class="footer-links">
-      <h4>Lumière</h4>
-      <p style="font-size:0.85rem;line-height:1.7;max-width:220px;">Crafting timeless photography across Kerala and beyond since 2016.</p>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-tag">📷 Professional Photography</span>
+      <h1>Capturing Moments<br>That <em>Last Forever</em></h1>
+      <p>
+        We craft timeless images that tell your story — from intimate portraits
+        to grand landscapes, every frame is a work of art.
+      </p>
+      <a href="#services" class="btn-primary">Explore Our Work</a>
+      <a href="#contact" class="btn-ghost">Get In Touch</a>
     </div>
-    <div class="footer-links">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
+
+    <div class="hero-visual">
+      <div class="camera-ring">
+        <span class="camera-icon">📷</span>
+      </div>
     </div>
-    <div class="footer-links">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="#">hello@lumiere.photo</a></li>
-        <li><a href="#">+91 98765 43210</a></li>
-        <li><a href="#">Kannur, Kerala, India</a></li>
-      </ul>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-num">1200+</span>
+      <span class="stat-label">Projects Done</span>
     </div>
-    <div class="footer-links">
-      <h4>Follow Us</h4>
-      <ul>
-        <li><a href="#" target="_blank">Instagram</a></li>
-        <li><a href="#" target="_blank">Facebook</a></li>
-        <li><a href="#" target="_blank">Behance</a></li>
-      </ul>
+    <div class="stat-item">
+      <span class="stat-num">8 Yrs</span>
+      <span class="stat-label">Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">98%</span>
+      <span class="stat-label">Happy Clients</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">15+</span>
+      <span class="stat-label">Awards Won</span>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Lumière Photography. All rights reserved.</span>
-    <span>Made with ❤️ in Kerala</span>
-  </div>
-</footer>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">Photography for Every Occasion</h2>
+    <p class="section-sub">
+      From weddings to corporate events, our lens brings your vision to life
+      with precision, creativity, and care.
+    </p>
+
+    <div class="services-grid">
+      <div class="card">
+        <div class="card-icon">💍</div>
+        <h3>Wedding Photography</h3>
+        <p>Emotional, candid, and beautifully composed images of your most important day.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧑‍💼</div>
+        <h3>Portrait Sessions</h3>
+        <p>Professional headshots and personal portraits crafted to reflect your personality.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Corporate Events</h3>
+        <p>High-quality documentation of conferences, product launches, and team events.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌿</div>
+        <h3>Nature & Landscape</h3>
+        <p>Sweeping vistas and fine details — nature captured at its most breathtaking.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🍽️</div>
+        <h3>Product & Food</h3>
+        <p>Commercial shoots that make your product irresistible to your audience.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>Fine Art Prints</h3>
+        <p>Gallery-quality prints, retouched and printed on premium archival paper.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Where Passion Meets the Lens</h2>
+      <p class="section-sub">
+        Founded in 2016, Lumière Photography was built on a simple belief —
+        great photos change how people see the world. We work closely with
+        every client to understand their vision and deliver images that exceed expectations.
+      </p>
+      <ul class="about-features">
+        <li>Fully edited, high-resolution digital files</li>
+        <li>Fast 7-day delivery turnaround</li>
+        <li>On-location & studio sessions available</li>
+        <li>Flexible packages for all budgets</li>
+        <li>Private online gallery for easy sharing</li>
+      </ul>
+    </div>
+    <div class="about-visual">
+      <div class="about-img-block">🌅</div>
+      <div class="about-img-block">🏙️</div>
+      <div class="about-img-block">🌺</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="nav-logo">Lumi<span>è</span>re</span>
+        <p>Crafting timeless photography across Kerala and beyond since 2016.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">hello@lumiere.photo</a></li>
+          <li><a href="#">+18523145632</a></li>
+          <li><a href="#">Canada</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Behance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lumière Photography. All rights reserved.</span>
+      <span>Made with ❤️ </span>
+    </div>
+  </footer>
 
 </body>
 </html>
